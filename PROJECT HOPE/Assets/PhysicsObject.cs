@@ -21,13 +21,6 @@ public class PhysicsObject : MonoBehaviour {
 	public float rightWallTime = 0f;
 	protected bool hurt = false;
 
-	protected bool Rodtouch;
-	protected bool[] enemyContact;
-	//protected bool enemyContact = false;
-	//public Collider2D enemy;
-	public GameObject[] enemy;
-	//protected GameObject enemy;
-
 	public Vector2 targetVelocity;//HM
 	protected bool grounded;//SC
 	public bool wallgrounded; // Walljump
@@ -36,8 +29,6 @@ public class PhysicsObject : MonoBehaviour {
 	protected Rigidbody2D rb2d;//SG
 	public Vector2 velocity;//SG
 	public Vector2 currentNormal;
-	//public Transform headCheck;
-	//protected bool doublejump = false;
 
 	protected const float minMoveDistance = 0.001f;//DO
 	protected const float shellRadius = 0.01f; // DO Extra Padding to insure that there is no overlapping in colliders
@@ -47,19 +38,11 @@ public class PhysicsObject : MonoBehaviour {
 	protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16]; //DO
 	protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D> (16); // DO Creates an empty list to store hitbuffer data
 
-	//public bool useLayerMask = true;
-	//public LayerMask mask;
-	//ContactFilter.SetLayerMask(mask);
-
 	void OnEnable(){
 		rb2d = GetComponent<Rigidbody2D> ();//SG
-		enemy = GameObject.FindGameObjectsWithTag("Enemy");
-		enemyContact = new bool[GameObject.FindGameObjectsWithTag ("Enemy").Length];
 	}
 
 	void OnLevelWasLoaded(){
-		enemy = GameObject.FindGameObjectsWithTag("Enemy");
-		enemyContact = new bool[GameObject.FindGameObjectsWithTag ("Enemy").Length];
 		Camera = GameObject.FindGameObjectWithTag ("MainCamera").gameObject;
 		GetComponent<PlayerPlatformerController>().enabled = true;
 	}
@@ -159,30 +142,7 @@ public class PhysicsObject : MonoBehaviour {
 			}
 
 		}
-			
-		//enemyContact = rb2d.IsTouching (enemy, EnemyFilter);
-		for (int i = 0; i < enemy.Length; i++) 
-		{
-			if (enemy [i] != null) {
-				enemyContact [i] = rb2d.IsTouching (enemy [i].GetComponent<Collider2D> (), EnemyFilter);
-				if (enemyContact [i]) {
-					hurt = true;
-					break;
-				} else
-					hurt = false;
-			}
-		}
-		/*enemyContact = rb2d.IsTouching(enemy.GetComponent<Collider2D>(), EnemyFilter);
-		if (enemyContact)
-			hurt = true;
-		else
-			hurt = false;*/
 
 		rb2d.position = rb2d.position + move.normalized * distance; // SG & SC
 	}
-
-	/*bool EnemyContact(Collider2D[] enemy, ref bool[] enemyContact, ContactFilter2D EnemyFilter )
-	{
-		
-	}*/
 }
