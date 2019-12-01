@@ -23,7 +23,6 @@ public class PlayerPlatformerController : PhysicsObject {
 	public float newJumpSpeed;
 	public float sprintMultiplier = 1.25f;
 	public float springHeight = 10f;
-	public int creditScene = 2;
 	public float endLevelWaitingTime = 10f;
 	public float Range = 0.5f;
 
@@ -107,20 +106,14 @@ public class PlayerPlatformerController : PhysicsObject {
 
 		spriteRenderer = GetComponent<SpriteRenderer> ();
 		animator = GetComponent<Animator> ();
-		//healthBar = GameObject.Find("HealthBar").GetComponent<SpriteRenderer>();
 		newJumpSpeed = jumpTakeOffSpeed;
 		Camera = GameObject.FindGameObjectWithTag ("MainCamera").gameObject;
 		audio = GetComponent<AudioSource> ();
 		currPlayerLife = playerLives;
-
-		//pauseMenu = GameObject.FindGameObjectWithTag ("Menu").gameObject;
-		//Initial Scale for the health bar
-		//healthScale = healthBar.transform.localScale;
 	}
 
 	protected override void ComputeVelocity()
 	{
-		//facingRight = false;
 		Vector2 move = Vector2.zero;
 		Vector2 wallPropulsion = Vector2.zero;
 		Vector2 dodge = Vector2.zero;
@@ -128,8 +121,6 @@ public class PlayerPlatformerController : PhysicsObject {
 
 		//////////////////////BASICS////////////////////////////////////////////////////////////////////////////////////////////
 		/// 
-		//headHit = Physics2D.Linecast(transform.position, headCheck.position, 1 << LayerMask.NameToLayer ("Level"));
-		//headHit = Physics2D.OverlapCircle(headCheck.position, headRadius, whatIsCeiling);
 			move.x = Input.GetAxis ("Horizontal");			
 			sliding.x = Input.GetAxis ("Down");
 			wallPropulsion.x = Input.GetAxis ("Jump");
@@ -166,14 +157,11 @@ public class PlayerPlatformerController : PhysicsObject {
 				velocity.y = jumpTakeOffSpeed;
 			jumped = true;
 			PlaySound (0, 1f);
-				//if (!grounded && !doublejump)
-				//doublejump = true; 
+			
 		} else if (Input.GetButtonUp ("Jump") && !wallgrounded && !headHit) {
 				if (velocity.y > 0)
 					velocity.y *= 0.5f;
 
-				/*if (velocity.y <= 0)
-				doublejump = false; */
 			} else if (Input.GetButton ("Jump") && headHit) {
 				if (velocity.y > 0)
 					velocity.y *= headFall;
@@ -186,7 +174,7 @@ public class PlayerPlatformerController : PhysicsObject {
 			}
 
 
-			//Code for Sliding Feature - To be implemented when slide animation is made//////////////////////////////////
+			//Code for Sliding//////////////////////////////////
 		if (currentNormal.y < 0.95 && currentNormal.y > minGroundNormalY && Input.GetButtonDown ("Down")) {
 				slide = true;
 		} else if (Input.GetButtonUp ("Down") || currentNormal.y > 0.95 /*|| currentNormal.y < minGroundNormalY*/)
@@ -260,8 +248,6 @@ public class PlayerPlatformerController : PhysicsObject {
 		if (Input.GetButton ("Sprint")) {
 			targetVelocity = move * maxSpeed * sprintMultiplier;
 		}
-		/*else if (!dodging && !grounded)
-			targetVelocity = move * maxSpeed * 0.85f;*///IMPLEMENT THIS LATER, MORE SUITABLE!!!!!!!!!!
 
 		if (flip && !dontFlip)
 			targetVelocity = move * maxSpeed * turnSpeed;
@@ -399,85 +385,6 @@ public class PlayerPlatformerController : PhysicsObject {
 
 		}
 
-		//ROTATION////////////////////////////////////////////////////////////////////////////////////////////////
-		/*if (!poleSwing) {
-			offset = new Vector2 (0, -1) * Radius;
-			angle = 4f;
-		}
-
-
-		if (poleSwing && !Input.GetButton("Jump")) {
-
-
-			if (!facingRight) {
-				transform.position = center + offset;
-				angle += RotateSpeed * Time.deltaTime;
-				offset = new Vector2 (Mathf.Sin (angle),Mathf.Cos (angle)) * Radius;
-
-				this.gameObject.transform.localEulerAngles = new Vector3(0f, 0f, (angle+0.1f)*(-180/3.14f));
-			} else {
-				transform.position = center + offset;
-				angle += RotateSpeed * Time.deltaTime;
-				offset = new Vector2 (Mathf.Cos (angle),Mathf.Sin (angle)) * (Radius+0.1f);
-				this.gameObject.transform.localEulerAngles = new Vector3(0f, 0f, (angle+0.1f)*(180/3.14f));
-			}
-			//rb2d.MoveRotation (angle);
-		} 
-		if (poleSwing && Input.GetButton("Jump")) {
-			jumped = true;
-
-			if (Mathf.Cos (angle) > 0.9f) {
-				velocity.y = jumpTakeOffSpeed;
-				poleSwing = false;
-			} 
-			else if (Mathf.Cos (angle) < -0.9f) {
-				velocity.y = -jumpTakeOffSpeed;
-				poleSwing = false;
-				Physics.IgnoreLayerCollision (13, 14);
-				//Physics.IgnoreCollision (this.GetComponent<Collider2D> (), GameObject.FindGameObjectWithTag ("Pole").GetComponent<Collider> ());
-			}
-
-			if (!facingRight) {
-				transform.position = center + offset;
-				angle += RotateSpeed * Time.deltaTime;
-				offset = new Vector2 (Mathf.Sin (angle),Mathf.Cos (angle)) * Radius;
-
-				this.gameObject.transform.localEulerAngles = new Vector3(0f, 0f, (angle+0.1f)*(-180/3.14f));
-			} else {
-				transform.position = center + offset;
-				angle += RotateSpeed * Time.deltaTime;
-				offset = new Vector2 (Mathf.Cos (angle),Mathf.Sin (angle)) * (Radius+0.1f);
-				this.gameObject.transform.localEulerAngles = new Vector3(0f, 0f, (angle)*(180/3.14f));
-			}
-
-
-
-			//Add if statements for angles
-			if (Mathf.Cos (angle) < 0) {
-				velocity.y = jumpTakeOffSpeed;
-			} else if(Mathf.Cos (angle) >= 0 && !grounded) {
-				velocity.y = 0;
-			}
-			if (facingRight) {
-				if (Mathf.Sin (angle) > 0 && !grounded) {
-					targetVelocity = move* maxSpeed * 1.25f;
-				} else if (Mathf.Sin (angle) <= 0 && !grounded) {
-					targetVelocity = move * 0f;
-				}
-			} else {
-				if (Mathf.Sin (angle) < 0 && !grounded) {
-					targetVelocity = move * maxSpeed * 1.25f;
-				} else if (Mathf.Sin (angle) >= 0 && !grounded) {
-					targetVelocity = move * 0f;
-				}
-			}
-			poleSwing = false;
-			Debug.Log ("Here is the angle, sin, and cos: ");
-			Debug.Log (angle);
-			Debug.Log (Mathf.Sin(angle));
-			Debug.Log (Mathf.Cos(angle));
-		}*/
-
 		//HANGING/////////////////////////////////////////
 		if (!poleSwing) {
 			offset = new Vector2 (0, -1) * Radius;
@@ -524,18 +431,11 @@ public class PlayerPlatformerController : PhysicsObject {
 		animator.SetBool ("grounded", grounded);
 		animator.SetBool ("hurt", hurt);
 		animator.SetBool ("poleSwing", poleSwing);
-		//animator.SetBool ("wallBounce", wallBounce);
 		animator.SetBool("kick", kick);
 		animator.SetBool ("groundStomp", groundStomp);
 		animator.SetBool("airKick", airKick);
 		animator.SetFloat ("velocityX", Mathf.Abs (velocity.x) / maxSpeed);
 		animator.SetBool ("slideJump", slideJump);
-		//DODGE 
-		//animator.SetBool ("hurt", gDodge);
-		//animator.SetBool ("isOnLadder", aDodge);
-			
-		//if (touch)
-		//	Penny.RotateAround (Pole.position, Penny.up, 20f * Time.deltaTime); 
 
 		///HEALTH/////////TAKE DAMAGE/////////////////////////////////////////////////////
 		if (invinsibleTimer > 3f) 
@@ -566,19 +466,13 @@ public class PlayerPlatformerController : PhysicsObject {
 			destoryCamera = true;
 			SceneManager.LoadScene (0); // Loads Main Menu
 			Destroy (this.gameObject);
-			/*StartCoroutine ("ReloadGame");
-			Camera.GetComponent<DeadzoneCamera> ().enabled = false;
-			StartCoroutine(Death ());*/
 		}
 		else if (playerLives < currPlayerLife) 
 		{
-			//GetComponent<PlayerPlatformerController>().enabled = false;
 			currPlayerLife--;
 			StartCoroutine ("ReloadGame");
 			Camera.GetComponent<DeadzoneCamera> ().enabled = false;
 			StartCoroutine(TempDeath ());
-			//GetComponent<PlayerPlatformerController>().enabled = true;
-			//this.gameObject.transform.position = new Vector3 (checkPointLocation.x, checkPointLocation.y, 1);
 		}
 
 		if (endLevel) 
@@ -590,41 +484,23 @@ public class PlayerPlatformerController : PhysicsObject {
 			StartCoroutine (DestroyCamera ());
 			Invoke("LoadAfterWait", 2.5f);
 		}
-
-		/*if (pauseMenu.GetComponent<LoadSceneOnClick> ().destroyOldModels) 
-		{
-			Destroy (this.gameObject);
-		}*/
 	}
 
 
 	void LoadAfterWait()
 	{
-		//yield return new WaitForSeconds(endLevelWaitingTime);
-		SceneManager.LoadScene (creditScene);
+        // Go back to Main Menu
+		SceneManager.LoadScene (0);
 		Destroy (this.gameObject);
 	}
 
 	void TakeDamage()
 	{
-		//Reduce Health
 		health -= damageAmount;
 		playerLives--;
 		GetComponent<PlayerPlatformerController>().enabled = false;
 		PlaySound (2, 1f);
-
-		//Update Health Bar
-		//UpdateHealthBar();
 	}
-
-	/*public void UpdateHealthBar()
-	{
-		//Set the health bar's color to proportion of
-		healthBar.material.color = Color.Lerp(Color.green, Color.red, 1-health*0.01f);
-
-		//Set the scale of the health bar to be proportional to the player's health
-		healthBar.transform.localScale = new Vector3(healthScale.x * health * 0.01f, 1, 1); 
-	}*/
 
 	IEnumerator ReloadGame()
 	{			
@@ -670,20 +546,12 @@ public class PlayerPlatformerController : PhysicsObject {
 			deltaXDistance = this.gameObject.transform.position.x - other.gameObject.transform.position.x;
 			stompReady = true;
 		} else if (other.gameObject.tag == "BrittleGround") {
-			/*float deltaXDistance = this.gameObject.transform.position.x - other.gameObject.transform.position.x;
-			float heightDistance = this.gameObject.transform.position.y - other.gameObject.transform.position.y;
-			float destroyRange = other.gameObject.GetComponent<CrumbleGround> ().destructRange;
-
-			if ((deltaXDistance < destroyRange && deltaXDistance > -destroyRange) && heightDistance > 0)*/
 				PlaySound(4, 1f);
 		}
 	}
 
 	void OnCollisionExit2D(Collision2D other)
 	{
-		/*if (other.gameObject.tag == "SpringGround") {
-			rising = false;
-		}*/
 		if (other.gameObject.tag == "SlipperyGround") {
 			slip = false;
 		}

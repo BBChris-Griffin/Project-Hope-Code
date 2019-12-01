@@ -8,7 +8,6 @@ public class PhysicsObject : MonoBehaviour {
 
 	public Transform Player;
 	protected GameObject Camera;
-	//public Transform MainEnemy;
 
 	public float minGroundNormalY = .65f;//SC
 	public float wallNormalRight = 0.1f; // WallJump
@@ -23,10 +22,8 @@ public class PhysicsObject : MonoBehaviour {
 
 	protected bool Rodtouch;
 	protected bool[] enemyContact;
-	//protected bool enemyContact = false;
-	//public Collider2D enemy;
 	public GameObject[] enemy;
-	//protected GameObject enemy;
+
 
 	public Vector2 targetVelocity;//HM
 	protected bool grounded;//SC
@@ -36,8 +33,7 @@ public class PhysicsObject : MonoBehaviour {
 	protected Rigidbody2D rb2d;//SG
 	public Vector2 velocity;//SG
 	public Vector2 currentNormal;
-	//public Transform headCheck;
-	//protected bool doublejump = false;
+
 
 	protected const float minMoveDistance = 0.001f;//DO
 	protected const float shellRadius = 0.01f; // DO Extra Padding to insure that there is no overlapping in colliders
@@ -46,10 +42,6 @@ public class PhysicsObject : MonoBehaviour {
 	protected ContactFilter2D EnemyFilter;
 	protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16]; //DO
 	protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D> (16); // DO Creates an empty list to store hitbuffer data
-
-	//public bool useLayerMask = true;
-	//public LayerMask mask;
-	//ContactFilter.SetLayerMask(mask);
 
 	void OnEnable(){
 		rb2d = GetComponent<Rigidbody2D> ();//SG
@@ -172,17 +164,9 @@ public class PhysicsObject : MonoBehaviour {
 					hurt = false;
 			}
 		}
-		/*enemyContact = rb2d.IsTouching(enemy.GetComponent<Collider2D>(), EnemyFilter);
-		if (enemyContact)
-			hurt = true;
-		else
-			hurt = false;*/
+
 
 		rb2d.position = rb2d.position + move.normalized * distance; // SG & SC
 	}
 
-	/*bool EnemyContact(Collider2D[] enemy, ref bool[] enemyContact, ContactFilter2D EnemyFilter )
-	{
-		
-	}*/
 }
