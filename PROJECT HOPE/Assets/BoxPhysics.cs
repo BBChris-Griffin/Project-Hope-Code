@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhysicsObject : MonoBehaviour {
+public class BoxPhysics : MonoBehaviour {
 
 	[HideInInspector] public bool facingRight = false;
 
 	public Transform Player;
-	protected GameObject Camera;
-	//public Transform MainEnemy;
+	public Transform MainEnemy;
 
 	public float minGroundNormalY = .65f;//SC
 	public float wallNormalRight = 0.1f; // WallJump
@@ -19,22 +18,24 @@ public class PhysicsObject : MonoBehaviour {
 	public float wallTime = 0f;
 	public float leftWallTime = 0f;
 	public float rightWallTime = 0f;
-	protected bool hurt = false;
+	public bool ttest = false;
+
 
 	protected bool Rodtouch;
-	protected bool[] enemyContact;
-	//protected bool enemyContact = false;
-	//public Collider2D enemy;
-	public GameObject[] enemy;
-	//protected GameObject enemy;
+	//protected bool[] enemyContact = new bool[2];
+	public Collider2D RodCollider;
+	public Collider2D enemy;
+	//public Collider2D[] enemy = new Collider2D[2];
 
-	public Vector2 targetVelocity;//HM
+	protected Vector2 targetVelocity;//HM
 	protected bool grounded;//SC
-	public bool wallgrounded; // Walljump
+	protected bool wallgrounded; // Walljump
 	public bool headHit = false;
-	public Vector2 groundNormal;//SC
+	protected Vector2 groundNormal;//SC
 	protected Rigidbody2D rb2d;//SG
 	public Vector2 velocity;//SG
+	protected Collider2D col;
+	protected Collision2D collision;
 	public Vector2 currentNormal;
 	//public Transform headCheck;
 	//protected bool doublejump = false;
@@ -46,22 +47,15 @@ public class PhysicsObject : MonoBehaviour {
 	protected ContactFilter2D EnemyFilter;
 	protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16]; //DO
 	protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D> (16); // DO Creates an empty list to store hitbuffer data
-
+	protected bool ignore = true;
 	//public bool useLayerMask = true;
 	//public LayerMask mask;
 	//ContactFilter.SetLayerMask(mask);
 
 	void OnEnable(){
 		rb2d = GetComponent<Rigidbody2D> ();//SG
-		enemy = GameObject.FindGameObjectsWithTag("Enemy");
-		enemyContact = new bool[GameObject.FindGameObjectsWithTag ("Enemy").Length];
-	}
-
-	void OnLevelWasLoaded(){
-		enemy = GameObject.FindGameObjectsWithTag("Enemy");
-		enemyContact = new bool[GameObject.FindGameObjectsWithTag ("Enemy").Length];
-		Camera = GameObject.FindGameObjectWithTag ("MainCamera").gameObject;
-		GetComponent<PlayerPlatformerController>().enabled = true;
+		col = GetComponent<Collider2D>();
+		Player = GameObject.FindGameObjectWithTag ("Player").transform;
 	}
 
 
@@ -71,9 +65,8 @@ public class PhysicsObject : MonoBehaviour {
 		ContactFilter.SetLayerMask (Physics2D.GetLayerCollisionMask (gameObject.layer)); // DO
 		ContactFilter.useLayerMask = true;// DO
 
-		
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		targetVelocity = Vector2.zero;
@@ -128,16 +121,12 @@ public class PhysicsObject : MonoBehaviour {
 					}
 				} else if (currentNormal.x > wallNormalLeft || currentNormal.x < wallNormalRight) { //WJ
 					wallgrounded = true;
-					wallTime = 0.01f;
-                    if (currentNormal.x > wallNormalLeft)
-                    {
-                        leftWallTime = 1;
-                    }
-                    else if (currentNormal.x < wallNormalRight)
-                    {
-                        rightWallTime = 1;
-                    }
-                    if (yMovement) {
+					wallTime = 1;
+					if (currentNormal.x > wallNormalLeft)
+						leftWallTime = 1;
+					else if (currentNormal.x < wallNormalRight)
+						rightWallTime = 1;
+					if (yMovement) {
 						currentNormal.y = 0;
 					}
 				} else if ((currentNormal.y < maxCeilingNormal) || ((currentNormal.y < 0.1 && currentNormal.y >-0.1) && (currentNormal.x > -0.1 && currentNormal.x < 0.1))){ 
@@ -159,30 +148,14 @@ public class PhysicsObject : MonoBehaviour {
 			}
 
 		}
-			
-		//enemyContact = rb2d.IsTouching (enemy, EnemyFilter);
-		for (int i = 0; i < enemy.Length; i++) 
-		{
-			if (enemy [i] != null) {
-				enemyContact [i] = rb2d.IsTouching (enemy [i].GetComponent<Collider2D> (), EnemyFilter);
-				if (enemyContact [i]) {
-					hurt = true;
-					break;
-				} else
-					hurt = false;
-			}
-		}
-		/*enemyContact = rb2d.IsTouching(enemy.GetComponent<Collider2D>(), EnemyFilter);
-		if (enemyContact)
-			hurt = true;
-		else
-			hurt = false;*/
+
+		/*if (col.gameObject.tag == "Enemy") {
+			Physics2D.IgnoreCollision(MainEnemy.GetComponent<Collider2D>(), col);
+		}*/
 
 		rb2d.position = rb2d.position + move.normalized * distance; // SG & SC
 	}
 
-	/*bool EnemyContact(Collider2D[] enemy, ref bool[] enemyContact, ContactFilter2D EnemyFilter )
-	{
-		
-	}*/
+
 }
+
