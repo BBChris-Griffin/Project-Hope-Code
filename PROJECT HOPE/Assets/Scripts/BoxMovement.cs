@@ -8,7 +8,6 @@ public class BoxMovement : BoxPhysics {
 	public float boxSlideTime = 1.0f;
 	public Collider2D player;
 	public bool floorBreak = false;
-	//public GameObject gameObject;
 	public bool boxKick = false;
 	public bool horizontalFloorBreak = false;
 
@@ -25,15 +24,11 @@ public class BoxMovement : BoxPhysics {
 	private SpriteRenderer spriteRenderer;
 	private bool check = false;
 	 
-	//private Animator animator;
-
 	// Use this for initialization
 	void Awake () {
 		spriteRenderer = GetComponent<SpriteRenderer> ();
 		audio = GetComponent<AudioSource> ();
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Collider2D> ();
-		//VGround = GameObject.FindGameObjectWithTag ("VDestructibleGround").gameObject;
-		//animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -57,12 +52,8 @@ public class BoxMovement : BoxPhysics {
 		}
 
 		if (Input.GetButtonDown ("Kick") && deltaDistance.x > -0.3f && deltaDistance.x < 0.5f && contact) {
-			//if (col.gameObject.tag == "DestructibleGround") {
-			//Destroy (gameObject);
 			floorBreak = true;
-			//boxKick = true;
 			PlaySound (0, 1f);
-			//}
 		} else if (kick && contact && !floorBreak || (velocity.y != 0 && deltaDistance.x > -1 && deltaDistance.x < 1 
 			 && deltaDistance.y > -1 && deltaDistance.y < 1 && kick)) {
 			distance = 1.075f;
@@ -89,27 +80,6 @@ public class BoxMovement : BoxPhysics {
 		}
 		if (distance == 0)
 			check = false;
-
-		/*else if (kick && timer > 1 && !floorBreak) {
-			if (deltaDistance.x > 0.2)
-				move = new Vector2 (-1, 0);
-			else if (deltaDistance.x < -0.2)
-				move = new Vector2 (1, 0);
-			targetVelocity = move * maxSpeed;
-			timer++;
-
-			if (timer > boxSlideTime) {
-				timer = 0;
-				kick = false;
-			}
-		} else if (timer > 5f) {
-			timer = 0;
-		}*/
-
-		/*if (horizontalFloorBreak && rb2d.IsTouching (VGround.GetComponent<Collider2D>())) {
-			PlaySound (0);
-		}*/
-
 	}
 
 void PlaySound(int clip, float volume)

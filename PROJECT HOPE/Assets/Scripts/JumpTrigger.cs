@@ -9,8 +9,6 @@ public class JumpTrigger : MonoBehaviour {
 	public bool trigger = false;
 	private Rigidbody2D rb2d;
 	private ContactFilter2D EnemyFilter;
-	//private EnemyScript enemyMovement;
-
 
 	// Update is called once per frame
 	void Start () {
@@ -31,7 +29,6 @@ public class JumpTrigger : MonoBehaviour {
 	{
 		if(enemyCol.gameObject.tag == "Enemy")
 			trigger = true;	
-		//GetComponent<EnemyScript>().enabled = true;	
 	}
 
 	public bool Trigger()

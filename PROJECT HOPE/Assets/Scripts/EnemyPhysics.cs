@@ -8,7 +8,6 @@ public class EnemyPhysics : MonoBehaviour {
 
 	public Transform Player;
 	public Collider2D boxDamage;
-	//public Transform MainEnemy;
 
 	public GameObject gameObject;
 	public float minGroundNormalY = .65f;//SC
@@ -21,15 +20,12 @@ public class EnemyPhysics : MonoBehaviour {
 	public float leftWallTime = 0f;
 	public float rightWallTime = 0f;
 	public bool ttest = false;
-	//public GameObject[] box = new GameObject[20];
 	protected GameObject[] BOX;
 	public bool timeToDie = false;
 
 	protected bool Rodtouch;
-	//protected bool[] enemyContact = new bool[2];
 	public Collider2D RodCollider;
 	public Collider2D enemy;
-	//public Collider2D[] enemy = new Collider2D[2];
 
 	protected Vector2 targetVelocity;//HM
 	protected bool grounded;//SC
@@ -41,8 +37,6 @@ public class EnemyPhysics : MonoBehaviour {
 	protected Collider2D col;
 	protected Collision2D collision;
 	public Vector2 currentNormal;
-	//public Transform headCheck;
-	//protected bool doublejump = false;
 
 	protected const float minMoveDistance = 0.001f;//DO
 	protected const float shellRadius = 0.01f; // DO Extra Padding to insure that there is no overlapping in colliders
@@ -54,9 +48,6 @@ public class EnemyPhysics : MonoBehaviour {
 	protected bool ignore = true;
 	protected float perDistance;
 	protected float perSpace = 0.5f;
-	//public bool useLayerMask = true;
-	//public LayerMask mask;
-	//ContactFilter.SetLayerMask(mask);
 
 	void OnEnable(){
 		rb2d = GetComponent<Rigidbody2D> ();//SG
@@ -85,9 +76,6 @@ public class EnemyPhysics : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-
-		//doublejump = false;
-		//facingRight = true;
 
 		velocity += gravityModifier * Physics2D.gravity * Time.deltaTime; // SG m/s^2 * m/s^2 * s = m/s
 		velocity.x = targetVelocity.x;//HM
@@ -157,10 +145,6 @@ public class EnemyPhysics : MonoBehaviour {
 
 		}
 			
-		/*if (col.gameObject.tag == "Enemy") {
-			Physics2D.IgnoreCollision(MainEnemy.GetComponent<Collider2D>(), col);
-		}*/
-			
 		rb2d.position = rb2d.position + move.normalized * distance; // SG & SC
 	}
 
@@ -168,10 +152,6 @@ public class EnemyPhysics : MonoBehaviour {
 
 		if (collision.gameObject.tag == "Enemy") {
 			ttest = true;
-			//perDistance = this.gameObject.GetComponent<Transform>().position - collision.transform.position;
-			/*if (perDistance < perSpace && perDistance > -perSpace) {
-				
-			}*/
 		}
 
 	}

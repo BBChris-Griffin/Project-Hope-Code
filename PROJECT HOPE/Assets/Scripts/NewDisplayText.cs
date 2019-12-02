@@ -11,7 +11,6 @@ public class NewDisplayText : MonoBehaviour {
 	public GameObject[] triggers;
 	protected GameObject player;
 
-	//public bool enablePanel = false;
 	// Use this for initialization
 	void Start () 
 	{
@@ -36,9 +35,6 @@ public class NewDisplayText : MonoBehaviour {
 
 		for (int i = 0; i < triggers.Length; ++i) {
 			if (triggers [i].GetComponent<TextTrigger> ().triggered) {
-				//this.transform.position = new Vector3 (player.transform.position.x + triggers[i].GetComponent<TextTrigger>().xOffset, 
-				//	player.transform.position.y + triggers[i].GetComponent<TextTrigger>().yOffset, 0);
-				//this.transform.position = this.transform.TransformPoint(currentPos);
 				myText.text = triggers [i].GetComponent<TextTrigger> ().message;
 			}
 		}

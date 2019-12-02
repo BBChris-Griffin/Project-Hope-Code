@@ -152,7 +152,6 @@ public class PhysicsObject : MonoBehaviour {
 
 		}
 			
-		//enemyContact = rb2d.IsTouching (enemy, EnemyFilter);
 		for (int i = 0; i < enemy.Length; i++) 
 		{
 			if (enemy [i] != null) {

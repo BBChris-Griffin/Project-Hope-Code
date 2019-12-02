@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyGround : MonoBehaviour {
-	//private Animator animator;
-	//public Collider2D box;
-
-	//public GameObject[] Box = new GameObject[20];
 	protected GameObject[] BOX;
 	public bool destruction = false;
 
@@ -14,20 +10,12 @@ public class DestroyGround : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//animator = GetComponent<Animator> ();
-		//gameObject = GetComponent<GameObject> ();
 		collider = GetComponent<Collider2D>();
 		BOX = GameObject.FindGameObjectsWithTag("Box");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		/*for (int i = 0; i < Box.Length; i++) {
-			if (Box[i].GetComponent<BoxMovement> ().floorBreak && collider.IsTouching (Box[i].GetComponent<Collider2D> ())) {
-				destruction = true;
-				Destroy (this.gameObject);
-			}
-		}*/
 		for(int i = 0; i < BOX.Length; ++i)
 		{
 			if (BOX[i].GetComponent<BoxMovement> ().floorBreak && collider.IsTouching (BOX[i].GetComponent<Collider2D> ())) {

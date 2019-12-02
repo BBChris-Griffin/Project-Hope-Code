@@ -90,6 +90,8 @@ public class PlayerPlatformerController : PhysicsObject {
 	private Vector3 firstCheckLocation;
 	public bool destoryCamera = false;
 
+    public int nextLevel = 0;
+
 	private GameObject pauseMenu;
 
 	private SpriteRenderer spriteRenderer;
@@ -489,8 +491,7 @@ public class PlayerPlatformerController : PhysicsObject {
 
 	void LoadAfterWait()
 	{
-        // Go back to Main Menu
-		SceneManager.LoadScene (0);
+		SceneManager.LoadScene (nextLevel);
 		Destroy (this.gameObject);
 	}
 

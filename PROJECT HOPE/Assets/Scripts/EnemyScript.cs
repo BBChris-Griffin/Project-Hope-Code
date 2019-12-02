@@ -22,8 +22,6 @@ public class EnemyScript : EnemyPhysics {
 	public AudioClip[] sfx;
 	private AudioSource audio;
 
-	//protected EnemyTrigger enemyTrigger;
-
 	private SpriteRenderer spriteRenderer;
 	private Animator animator;
 
@@ -32,11 +30,9 @@ public class EnemyScript : EnemyPhysics {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		animator = GetComponent<Animator>();
 		jumpTrigger = GameObject.FindGameObjectWithTag ("JumpTrigger").gameObject;
-		//trigger = GameObject.FindGameObjectWithTag ("EnemyTrigger").gameObject;
 		teleTrigger = GameObject.FindGameObjectWithTag ("TeleportTrigger").gameObject;
 		teleCollider = teleTrigger.GetComponent<Collider2D> ();
 		audio = GetComponent<AudioSource> ();
-		//enemyTrigger = GetComponent<EnemyTrigger> ();
 	}
 
 	protected override void ComputeVelocity()
@@ -44,8 +40,8 @@ public class EnemyScript : EnemyPhysics {
 		Vector2 move = Vector2.zero;
 		Vector2 deltaDistance = Player.position - this.gameObject.GetComponent<Transform>().position;
 
-		if (trigger.GetComponent<EnemyTrigger>().trigger)//(deltaDistance.x > -7 && deltaDistance.x < 7) && (deltaDistance.y > -3.5 && deltaDistance.y < 3.5)) 
-		{
+		if (trigger.GetComponent<EnemyTrigger>().trigger)
+        {
 				if (deltaDistance.x > 0.1)
 					move = new Vector2 (1, 0);
 				else if (deltaDistance.x < -0.1)
@@ -66,9 +62,6 @@ public class EnemyScript : EnemyPhysics {
 				}
 		} 
 
-		///FLIP////////////////////////////////////////////////////////////
-
-
 		animator.SetBool ("grounded", grounded);
 		animator.SetFloat ("velocityX", Mathf.Abs (velocity.x) / maxSpeed);
 
@@ -83,7 +76,6 @@ void OnTriggerEnter2D(Collider2D other)
 		
 	if(other.gameObject.tag == "JumpTrigger")
 		jumpCheck = true;
-	//GetComponent<EnemyScript>().enabled = true;	
 }
 
 void OnTriggerExit2D(Collider2D other){

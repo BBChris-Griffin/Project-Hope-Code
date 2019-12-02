@@ -13,7 +13,6 @@ public class DisplayText : MonoBehaviour {
 	public GameObject[] triggers;
 	protected GameObject player;
 
-	//public bool enablePanel = false;
 	// Use this for initialization
 	void Start () 
 	{
@@ -42,7 +41,6 @@ public class DisplayText : MonoBehaviour {
 			if (triggers [i].GetComponent<TextTrigger> ().triggered) {
 				this.transform.position = new Vector3 (player.transform.position.x, 
 					player.transform.position.y, 0);
-				//this.transform.position = this.transform.TransformPoint(currentPos);
 				myText.text = triggers [i].GetComponent<TextTrigger> ().message;
 			}
 		}

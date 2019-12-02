@@ -39,16 +39,10 @@ public class HeliMovement : BoxPhysics {
 		if (timer > timeLimit || (((Input.GetAxis("Horizontal") >0.3f || Input.GetAxis("Horizontal") < -0.5f)  
 				&& Input.GetButtonDown("Jump")) && timer > 0.25f)) {
 			Destroy (this.gameObject);
-			//this.gameObject.SetActive(false);
 			destroyed = true;
 		}
 
 		heliTimer++;
-
-		/*if (player.GetComponent<PlayerPlatformerController> ().checkPoint && destroyed) {
-			this.gameObject.SetActive (true);
-			destroyed = false;
-		}*/
 	}
 
 

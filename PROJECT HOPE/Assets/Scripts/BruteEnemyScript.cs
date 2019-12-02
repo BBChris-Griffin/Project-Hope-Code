@@ -42,14 +42,8 @@ public class BruteEnemyScript : EnemyPhysics {
 				spriteRenderer.flipX = !spriteRenderer.flipX;
 			}
 		}
-
-		///FLIP////////////////////////////////////////////////////////////
-
-
-
 		animator.SetBool ("grounded", grounded);
 		animator.SetFloat ("velocityX", Mathf.Abs (velocity.x) / maxSpeed);
-
 	}
 
 

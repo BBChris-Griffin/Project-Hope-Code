@@ -10,7 +10,6 @@ public class CheckPoint : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//player = GameObject.FindGameObjectWithTag ("Player").gameObject;
 		animator = GetComponent<Animator>();
 	}
 	

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class IgnoreEnemyScript : MonoBehaviour {
 
-	//public Transform MainEnemy;
 	private bool ignore = true;
 	private Collider2D col;
 	private Collider2D enemy;

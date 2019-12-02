@@ -25,14 +25,11 @@ public class BouncingPlatform : BoxPhysics {
 	private SpriteRenderer spriteRenderer;
 	private bool check = false;
 
-	//private Animator animator;
-
 	// Use this for initialization
 	void Awake () {
 		spriteRenderer = GetComponent<SpriteRenderer> ();
 		audio = GetComponent<AudioSource> ();
 		VGround = GameObject.FindGameObjectWithTag ("VDestructibleGround").gameObject;
-		//animator = GetComponent<Animator>();
 	}
 
 	// Update is called once per frame
@@ -54,75 +51,12 @@ public class BouncingPlatform : BoxPhysics {
 		{
 			floorBreak = false;
 		}
-
-
-		/*if (Input.GetButtonDown ("Kick") && deltaDistance.x > -0.3f && deltaDistance.x < 0.5f && contact) {
-			//if (col.gameObject.tag == "DestructibleGround") {
-			//Destroy (gameObject);
-			floorBreak = true;
-			boxKick = true;
-			PlaySound (0, 1f);
-			//}
-		} else if (kick && contact && !floorBreak || (velocity.y != 0 && deltaDistance.x > -1 && deltaDistance.x < 1 
-			&& deltaDistance.y > -1 && deltaDistance.y < 1 && kick)) {
-			distance = 40f;
-			horizontalFloorBreak = true;
-			boxKick = true;
-			check = true;
-			PlaySound (1, 1f);
-		}
-
-		if (distance > 0) {
-			if (deltaDistance.x < -0.2f)
-				move = new Vector2 (1, 0);
-			if (deltaDistance.x > 0.2f)
-				move = new Vector2 (-1, 0);
-			targetVelocity = move * maxSpeed;
-
-
-
-			distance--;
-		}
-		if (distance == 1 && check) {
-			boxKick = false;
-			horizontalFloorBreak = false;
-		}
-		if (distance == 0)
-			check = false;
-		/*else if (kick && timer > 1 && !floorBreak) {
-			if (deltaDistance.x > 0.2)
-				move = new Vector2 (-1, 0);
-			else if (deltaDistance.x < -0.2)
-				move = new Vector2 (1, 0);
-			targetVelocity = move * maxSpeed;
-			timer++;
-
-			if (timer > boxSlideTime) {
-				timer = 0;
-				kick = false;
-			}
-		} else if (timer > 5f) {
-			timer = 0;
-		}*/
-
-		/*if (horizontalFloorBreak && rb2d.IsTouching (VGround.GetComponent<Collider2D>())) {
-		PlaySound (0);
-	}*/
-
 }
-
-/*void PlaySound(int clip, float volume)
-{
-	audio.clip = sfx[clip];
-	audio.volume = volume;
-	audio.Play ();
-}*/
 
 void OnCollisionEnter2D(Collision2D other)
 {
 
 	if (other.gameObject.tag == "SpringGround") {
-		//PlaySound (3, 0.5f);
 		velocity.y = 10f;
 	}
 }

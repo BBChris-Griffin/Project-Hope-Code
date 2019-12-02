@@ -16,7 +16,6 @@ public sealed class BuildResolutionHandler : MonoBehaviour {
 
 	public void CalculateSize()
 	{
-		// Landscape = width/height. Portrait = height/width.
 		Camera.main.aspect = game.width / game.height;
 		Camera.main.orthographicSize = game.width / ((( game.width / game.height ) * 1f) * pixelsPerUnit);
 	}

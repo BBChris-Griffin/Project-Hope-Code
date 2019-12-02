@@ -17,19 +17,9 @@ public class DeadzoneCamera : MonoBehaviour
     protected Camera _camera;
     protected Vector3 _currentVelocity;
 
-	//private GameObject pauseMenu;
-
 	public void Awake()
 	{
 		target = GameObject.FindGameObjectWithTag ("Player").GetComponent<Renderer>();
-		/*if (target.GetComponent<PlayerPlatformerController> ().endLevel) 
-		{
-			DontDestroyOnLoad (this);
-
-			if (FindObjectsOfType (GetType ()).Length > 1) {
-				Destroy (this.gameObject);
-			}
-		}*/
 		this.transform.position = new Vector3(target.GetComponent<PlayerPlatformerController>().checkPointLocation.x,
 			target.GetComponent<PlayerPlatformerController>().checkPointLocation.y, -21f);
 	}
@@ -38,7 +28,6 @@ public class DeadzoneCamera : MonoBehaviour
 	{
 		this.GetComponent<DeadzoneCamera> ().enabled = true;
 		target = GameObject.FindGameObjectWithTag ("Player").GetComponent<Renderer>();
-		//pauseMenu = GameObject.FindGameObjectWithTag ("Menu").gameObject;
 	}
 
     public void Start()

@@ -21,11 +21,4 @@ public class CrumbleGround : MonoBehaviour {
 		if (contact && (deltaDistance < destructRange && deltaDistance > -destructRange) && heightDistance > 0)
 			Destroy (this.gameObject);
 	}
-
-	/*void OnCollisionEnter2D(Collision2D other)
-	{
-		float deltaDistance = other.gameObject.transform.position.x - this.gameObject.transform.position.x;
-		if (other.gameObject.tag == "Player") && (deltaDistance < destructRange && deltaDistance > -destructRange))
-			Destroy (this.gameObject);
-	}*/
 }
